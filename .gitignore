@@ -1,0 +1,36 @@
+# Raw and intermediate data remain local pending source/license review.
+/data/raw/
+/data/interim/
+/data/processed/
+lead_scoring.csv
+
+# Database storage, backups and local logs
+*.mdf
+*.ndf
+*.ldf
+*.bak
+*.trn
+*.log
+
+# Secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+secrets.*
+credentials.*
+*.pem
+*.key
+/config/local.*
+
+# Power BI local state and temporary files
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/unappliedChanges.json
+~$*
+*.tmp
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
