@@ -21,7 +21,7 @@ The database name and non-NULL schema ID were checked before import. The row-cou
 
 ## Column settings reviewed during the guided import
 
-The following settings were recommended during setup. The final database metadata has **not yet been independently queried**, so this list is an import guide, not a verified CREATE TABLE specification.
+These settings were recommended during milestone 02. In milestone 03, SQL metadata queries confirmed the column types, NULL settings and primary key on `lead_id`. See [SQL validation results](sql-validation.md). This guide does not replace a full scripted CREATE TABLE definition.
 
 | Column or group | Recommended import setting |
 | --- | --- |
@@ -41,9 +41,9 @@ The following settings were recommended during setup. The final database metadat
 
 After import, the editor displayed an “Invalid object name” warning although the query executed successfully and returned 5,000 rows. Refreshing IntelliSense's local cache with **Ctrl + Shift + R** removed the warning. No reimport was required.
 
-## What remains unverified
+## Validation follow-up
 
-Matching row counts is a useful first check, but does not establish full import fidelity or data quality. The next milestone will inspect the actual schema and constraints, confirm lead uniqueness, and compare missingness, Boolean outcomes and suspicious numeric values with the original CSV assessment. Analytical views and Power BI work have not started.
+Milestone 03 confirmed schema settings, lead ID uniqueness and non-NULL status, conversion outcome counts, all column NULL counts and negative-value counts in three selected fields. Matching these checks does not establish full row-by-row import fidelity. Cross-field and account/contact consistency checks in SQL remain planned. No cleaning, analytical views or Power BI work has been completed.
 
 ## Repository hygiene
 

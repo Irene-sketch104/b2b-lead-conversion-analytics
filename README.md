@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 02: SQL Server database setup and CSV import.**
+**Milestone 03: imported schema and first-pass data-quality validation.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -21,12 +21,16 @@ Completed:
 - Created `B2BLeadAnalytics` and the `raw` schema.
 - Imported the CSV into `raw.lead_scoring` using the SSMS Import Flat File wizard.
 - Executed a SQL row-count check: 5,000 rows, matching the CSV baseline.
+- Verified all 32 column types and NULL settings, plus the primary key on `lead_id`.
+- Confirmed 5,000 non-NULL, distinct lead IDs and the conversion outcome counts.
+- Compared NULL counts across all 32 columns with the CSV baseline: all matched.
+- Confirmed negative-value counts in recency and two ACV fields; no cleaning has been applied.
 
-The initial inspection was performed with Python/pandas with AI assistance during project planning. Only the imported row count has subsequently been confirmed in SQL Server. The other baseline checks still require SQL validation.
+The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 Not yet completed or confirmed:
-- Final imported schema and primary-key verification.
-- SQL data-quality checks beyond row count, analytical queries and views.
+- Remaining cross-field and account/contact consistency checks in SQL.
+- Cleaning decisions, analytical queries and views.
 - Power BI connection, data model, DAX measures and report pages.
 - Commercial findings, recommendations and final portfolio presentation.
 
@@ -49,7 +53,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import is complete. All downstream stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import and first-pass SQL validation are complete. Cleaning, analytical views and Power BI stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -72,5 +76,7 @@ Current files:
 - `docs/database-import.md` — database setup, manual import and row-count evidence
 - `sql/01_create_database.sql` — database and schema setup
 - `sql/02_verify_import.sql` — imported row-count check
+- `sql/03_validate_schema.sql` — schema, keys, outcomes, NULLs and selected negative values
+- `docs/sql-validation.md` — observed SQL results and validation limits
 
 Future directories, created when needed: `powerbi/`, `images/`.
