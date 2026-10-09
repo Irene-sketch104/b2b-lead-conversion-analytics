@@ -10,19 +10,23 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 01: scope definition and initial raw-data inspection.**
+**Milestone 02: SQL Server database setup and CSV import.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
 - Inspected the supplied CSV: 5,000 lead records and 32 columns.
 - Identified keys, missingness, consistency checks and data-quality concerns.
 - Proposed a small account-to-lead model; it has not been implemented.
+- Connected to the local SQL Server instance using Windows Authentication.
+- Created `B2BLeadAnalytics` and the `raw` schema.
+- Imported the CSV into `raw.lead_scoring` using the SSMS Import Flat File wizard.
+- Executed a SQL row-count check: 5,000 rows, matching the CSV baseline.
 
-The initial inspection was performed with Python/pandas with AI assistance during project planning. It is not evidence of completed SQL Server validation. SQL checks will be implemented and compared with these baseline results in a later milestone.
+The initial inspection was performed with Python/pandas with AI assistance during project planning. Only the imported row count has subsequently been confirmed in SQL Server. The other baseline checks still require SQL validation.
 
 Not yet completed or confirmed:
-- Local SQL Server connection, project database creation and import.
-- SQL validation scripts, analytical queries and views.
+- Final imported schema and primary-key verification.
+- SQL data-quality checks beyond row count, analytical queries and views.
 - Power BI connection, data model, DAX measures and report pages.
 - Commercial findings, recommendations and final portfolio presentation.
 
@@ -41,9 +45,11 @@ Raw data is not included in this milestone. The exact public source URL, version
 
 See [the initial data assessment](docs/data-assessment.md) for the full column inventory and baseline checks.
 
-## Proposed workflow — not yet implemented
+## Workflow and implementation status
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
+
+The CSV-to-SQL Server import is complete. All downstream stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -60,5 +66,11 @@ No revenue, full-funnel or long-term trend dashboard is planned from the availab
 
 Each coherent milestone will update the relevant files and this status section, then be committed at the time it is completed. No backdated or fabricated commits. Later milestones will add SQL, Power BI, screenshots and findings only when the corresponding work exists and has been checked.
 
-Current files: `README.md`, `docs/data-assessment.md`, `.gitignore`.
-Future directories, created when needed: `sql/`, `powerbi/`, `images/`.
+Current files:
+- `README.md` and `.gitignore`
+- `docs/data-assessment.md` — initial CSV inspection
+- `docs/database-import.md` — database setup, manual import and row-count evidence
+- `sql/01_create_database.sql` — database and schema setup
+- `sql/02_verify_import.sql` — imported row-count check
+
+Future directories, created when needed: `powerbi/`, `images/`.
