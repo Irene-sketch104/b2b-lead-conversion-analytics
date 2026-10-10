@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 04: lead, contact and account relationship validation.**
+**Milestone 05: selected cross-field validation and issue documentation.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -28,13 +28,18 @@ Completed:
 - Verified 5,000 distinct leads, 2,889 contacts and 1,280 accounts in SQL.
 - Confirmed each contact maps to one account and has consistent buyer role, function and seniority.
 - Confirmed company attributes are consistent across leads within each account.
+- Found no touch-count arithmetic mismatches among records with all three required values.
+- Split 1,400 missing opportunity ACV values into 745 leads without a created opportunity and 655 with one.
+- Reviewed opportunity-status combinations: no leads are marked open without also being marked created.
+- Flagged 134 leads where non-negative last-touch recency exceeds first-touch recency; interpretation requires a shared reference date.
 
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
-See [relationship validation](docs/relationship-validation.md) for the latest SQL checks and their limits.
+See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
 
 Not yet completed or confirmed:
-- Remaining cross-field checks in SQL, including touch-count arithmetic and opportunity-field relationships.
+- Source-definition confirmation for opportunity flags and the reference dates of recency fields.
+- Resolution or explicit treatment of the flagged data-quality issues.
 - Account-level contact coverage and role-mix analysis.
 - Cleaning decisions, analytical queries and views.
 - Power BI connection, data model, DAX measures and report pages.
@@ -59,7 +64,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation and account/contact consistency checks are complete. Cleaning, analytical views and Power BI stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. Cleaning, analytical views and Power BI stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -88,5 +93,7 @@ Current files:
 - `docs/sql-validation.md` — observed SQL results and validation limits
 - `sql/04_validate_relationships.sql` — entity counts and contact/account consistency checks
 - `docs/relationship-validation.md` — relationship results and planned analytical extension
+- `sql/05_validate_cross_fields.sql` — touch arithmetic, opportunity fields and recency-order checks
+- `docs/cross-field-validation.md` — observed cross-field results and unresolved issues
 
 Future directories, created when needed: `powerbi/`, `images/`.
