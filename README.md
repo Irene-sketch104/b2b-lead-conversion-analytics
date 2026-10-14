@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 06: clean lead view created and validated in SQL Server.**
+**Milestone 07: account view created and validated in SQL Server.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -37,6 +37,9 @@ Completed:
 - Validated 5,000 rows and unique leads, negative-to-NULL cleaning, recency flags and ACV status counts.
 - Confirmed that no source rows or original column values are missing or changed in the view.
 
+- Created `analytics.vw_accounts`: one row per company, combining company attributes, distinct contact counts and buyer-role, seniority and function counts/combinations.
+- Validated 1,280 unique accounts, 5,000 total leads and 2,889 total contacts, with no missing/extra accounts, count mismatches, profile mismatches or category-list discrepancies.
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
@@ -44,8 +47,8 @@ See [relationship validation](docs/relationship-validation.md) and [cross-field 
 Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
 - Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
-- Account-level contact coverage and role-mix analysis.
-- Business analysis queries and account/lead reporting views beyond the completed cleaning view.
+- Commercial comparison of account contact coverage, buyer-role, seniority and function combinations; the supporting account view is complete.
+- Business analysis queries and any further lead reporting views beyond the completed clean lead and account views.
 - Power BI connection, data model, DAX measures and report pages.
 - Commercial findings, recommendations and final portfolio presentation.
 
@@ -68,7 +71,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view is also complete; business analysis views and Power BI stages remain planned. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; commercial analysis queries and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -79,7 +82,7 @@ The proposed model uses a preserved raw table and two analytical views: one row 
 1. **Lead Conversion Overview:** overall outcomes, source performance and company segments, with volume alongside conversion rate.
 2. **Engagement & Buyer Insights:** engagement levels, pricing/demo interactions and buyer characteristics associated with conversion.
 
-Planned extension: compare distinct contact counts and buyer-role combinations at account level. Lead conversion rate and the share of accounts with at least one converted lead will be treated as separate measures. These analyses and measures have not yet been implemented.
+The account view now provides distinct contact counts and buyer-role, seniority and function counts/combinations. Comparing these characteristics with conversion remains planned. Lead conversion rate and the share of accounts with at least one converted lead will be treated as separate measures. Neither these comparisons nor the Power BI measures have been implemented.
 
 No revenue, full-funnel or long-term trend dashboard is planned from the available fields.
 
@@ -102,5 +105,8 @@ Current files:
 
 - `sql/06_create_clean_view.sql` — retained previews, clean view definition and five validation queries
 - `docs/cleaning-rules.md` — implemented cleaning rules, metric scope and verified results
+
+- `sql/07_create_account_view.sql` — retained previews, account view definition and five validation queries
+- `docs/account-view.md` — account grain, field definitions, verified results and interpretation limits
 
 Future directories, created when needed: `powerbi/`, `images/`.

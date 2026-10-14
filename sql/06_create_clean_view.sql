@@ -187,7 +187,7 @@ FROM clean.vw_lead_scoring
 GROUP BY flag_touch_recency_conflict
 ORDER BY flag_touch_recency_conflict;
 
--- ===== 驗證 4：金額狀態四類，預期：負數 70、已建商機缺值 655、金額可用 3530、未記錄商機 745 =====
+-- ===== 驗證 4：金額狀態四類，預期 70、655、3530、745（依下列排序） =====
 SELECT opportunity_acv_status, COUNT(*) AS lead_count
 FROM clean.vw_lead_scoring
 GROUP BY opportunity_acv_status
