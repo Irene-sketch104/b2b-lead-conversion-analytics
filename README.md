@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 05: selected cross-field validation and issue documentation.**
+**Milestone 06: clean lead view created and validated in SQL Server.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -24,7 +24,7 @@ Completed:
 - Verified all 32 column types and NULL settings, plus the primary key on `lead_id`.
 - Confirmed 5,000 non-NULL, distinct lead IDs and the conversion outcome counts.
 - Compared NULL counts across all 32 columns with the CSV baseline: all matched.
-- Confirmed negative-value counts in recency and two ACV fields; no cleaning has been applied.
+- Confirmed negative-value counts in recency and two ACV fields; raw values remain unchanged.
 - Verified 5,000 distinct leads, 2,889 contacts and 1,280 accounts in SQL.
 - Confirmed each contact maps to one account and has consistent buyer role, function and seniority.
 - Confirmed company attributes are consistent across leads within each account.
@@ -33,15 +33,19 @@ Completed:
 - Reviewed opportunity-status combinations: no leads are marked open without also being marked created.
 - Flagged 134 leads where non-negative last-touch recency exceeds first-touch recency; interpretation requires a shared reference date.
 
+- Created `clean.vw_lead_scoring` with all 32 raw columns and five derived fields.
+- Validated 5,000 rows and unique leads, negative-to-NULL cleaning, recency flags and ACV status counts.
+- Confirmed that no source rows or original column values are missing or changed in the view.
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
 
 Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
-- Resolution or explicit treatment of the flagged data-quality issues.
+- Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
 - Account-level contact coverage and role-mix analysis.
-- Cleaning decisions, analytical queries and views.
+- Business analysis queries and account/lead reporting views beyond the completed cleaning view.
 - Power BI connection, data model, DAX measures and report pages.
 - Commercial findings, recommendations and final portfolio presentation.
 
@@ -52,7 +56,7 @@ The supplied `lead_scoring.csv` contains synthetic B2B lead data used in an MSc 
 - Grain: one row per lead; 5,000 distinct lead IDs, 1,280 accounts and 2,889 contacts.
 - Outcome: `converted_within_90_days`; 1,049 positive outcomes (20.98%).
 - Lead creation dates cover 1–30 January 2024 only.
-- Missing values, negative recency values and negative ACV values require explicit treatment.
+- Existing NULLs are preserved; three selected negative-valued fields are converted to NULL in derived columns. Recency conflicts are flagged, not corrected or deleted.
 - Observation cutoffs and potential post-outcome fields require clarification before making early-prioritisation claims.
 - Multiple leads can belong to one account. Segment comparisons are associations, not causal effects.
 
@@ -64,7 +68,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. Cleaning, analytical views and Power BI stages remain planned. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view is also complete; business analysis views and Power BI stages remain planned. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -95,5 +99,8 @@ Current files:
 - `docs/relationship-validation.md` — relationship results and planned analytical extension
 - `sql/05_validate_cross_fields.sql` — touch arithmetic, opportunity fields and recency-order checks
 - `docs/cross-field-validation.md` — observed cross-field results and unresolved issues
+
+- `sql/06_create_clean_view.sql` — retained previews, clean view definition and five validation queries
+- `docs/cleaning-rules.md` — implemented cleaning rules, metric scope and verified results
 
 Future directories, created when needed: `powerbi/`, `images/`.
