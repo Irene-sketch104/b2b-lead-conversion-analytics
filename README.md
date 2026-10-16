@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 07: account view created and validated in SQL Server.**
+**Milestone 08: initial segment conversion analysis and account-weight sensitivity checks completed.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -40,6 +40,10 @@ Completed:
 - Created `analytics.vw_accounts`: one row per company, combining company attributes, distinct contact counts and buyer-role, seniority and function counts/combinations.
 - Validated 1,280 unique accounts, 5,000 total leads and 2,889 total contacts, with no missing/extra accounts, count mismatches, profile mismatches or category-list discrepancies.
 
+- Completed six lead conversion summaries: source, industry, employee band, revenue band, region and process maturity. Each reconciles to 5,000 leads and 1,049 conversions.
+- Compared pooled lead conversion rates with equally weighted company mean lead conversion rates across three company characteristics. Employee-size and revenue rankings change under equal company weighting; maturity ordering remains unchanged.
+- Recorded observed results, metric definitions and limitations in [initial conversion analysis](docs/lead-conversion-analysis.md).
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
@@ -48,9 +52,9 @@ Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
 - Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
 - Commercial comparison of account contact coverage, buyer-role, seniority and function combinations; the supporting account view is complete.
-- Business analysis queries and any further lead reporting views beyond the completed clean lead and account views.
+- Source/industry cross-analysis, engagement analysis and any further reporting views needed for the report.
 - Power BI connection, data model, DAX measures and report pages.
-- Commercial findings, recommendations and final portfolio presentation.
+- Integrated commercial recommendations and final portfolio presentation; initial descriptive observations are documented.
 
 ## Data and limitations
 
@@ -71,7 +75,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; commercial analysis queries and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Further commercial analysis and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -108,5 +112,8 @@ Current files:
 
 - `sql/07_create_account_view.sql` — retained previews, account view definition and five validation queries
 - `docs/account-view.md` — account grain, field definitions, verified results and interpretation limits
+
+- `sql/08_analyze_lead_conversion.sql` — six segment summaries, account detail and three-dimension weighting comparison
+- `docs/lead-conversion-analysis.md` — observed results, metric definitions and interpretation limits
 
 Future directories, created when needed: `powerbi/`, `images/`.
