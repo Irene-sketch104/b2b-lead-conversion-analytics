@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 09: company-size comparisons within source and industry, plus source-mix checks, completed.**
+**Milestone 10: engagement summaries and conversion comparisons completed.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -47,6 +47,9 @@ Completed:
 - Compared company sizes within lead sources and industries using pooled and equal-account conversion metrics. The overall size ranking does not hold consistently across these subgroups.
 - Checked source composition at lead and account level, including within-company concentration and zero-inclusive equal-account source shares. See [segment-mix analysis](docs/segment-mix-analysis.md) for observed results and limitations.
 
+- Completed engagement summaries for touch counts/directions, recency, activities, sessions, pricing/demo page patterns and total session duration. Compared pooled lead conversion with equal-account mean lead conversion rates.
+- Documented observed results, reporting bands, source definitions and evidence limits in [engagement analysis](docs/engagement-analysis.md). No optimal engagement threshold or causal effect is claimed.
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
@@ -55,7 +58,7 @@ Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
 - Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
 - Commercial comparison of account contact coverage, buyer-role, seniority and function combinations; the supporting account view is complete.
-- Engagement analysis and any further reporting views needed for the report; company-size comparisons within source and industry are complete.
+- Any further reporting views and reusable reporting definitions needed for Power BI; engagement analysis queries are complete.
 - Power BI connection, data model, DAX measures and report pages.
 - Integrated commercial recommendations and final portfolio presentation; initial descriptive observations are documented.
 
@@ -70,7 +73,7 @@ The supplied `lead_scoring.csv` contains synthetic B2B lead data used in an MSc 
 - Observation cutoffs and potential post-outcome fields require clarification before making early-prioritisation claims.
 - Multiple leads can belong to one account. Segment comparisons are associations, not causal effects.
 
-Raw data is not included in this milestone. The exact public source URL, version and redistribution terms must be verified and documented before any dataset is added. This repository is not yet a reproducible implementation.
+Raw data is not included in this milestone. The public dataset is [LeadForge Intermediate v1 on Kaggle](https://www.kaggle.com/datasets/derelictpanda/leadforge-lead-scoring-intermediate-v1/data). Current upstream field definitions are linked in the engagement notes; matching the local downloaded bundle to an exact release and confirming redistribution terms remain outstanding before adding any dataset. The repository does not yet provide a fully automated end-to-end reproduction.
 
 See [the initial data assessment](docs/data-assessment.md) for the full column inventory and baseline checks.
 
@@ -78,7 +81,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement and buyer/contact analysis, reporting preparation and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Buyer/contact analysis, reporting preparation and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -121,5 +124,8 @@ Current files:
 
 - `sql/09_analyze_segment_mix.sql` — source/size and industry/size conversion comparisons and source composition queries
 - `docs/segment-mix-analysis.md` — observed subgroup results, concentration checks and metric limits
+
+- `sql/10_analyze_engagement.sql` — engagement distributions, joint patterns and conversion comparisons
+- `docs/engagement-analysis.md` — observed results, metric definitions, evidence coverage and reporting implications
 
 Future directories, created when needed: `powerbi/`, `images/`.
