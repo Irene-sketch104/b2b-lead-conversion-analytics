@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 10: engagement summaries and conversion comparisons completed.**
+**Milestone 11: contact coverage, buyer-role and seniority conversion comparisons completed.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -50,6 +50,9 @@ Completed:
 - Completed engagement summaries for touch counts/directions, recency, activities, sessions, pricing/demo page patterns and total session duration. Compared pooled lead conversion with equal-account mean lead conversion rates.
 - Documented observed results, reporting bands, source definitions and evidence limits in [engagement analysis](docs/engagement-analysis.md). No optimal engagement threshold or causal effect is claimed.
 
+- Compared conversion by recorded contact counts, buyer-role counts/combinations and seniority counts/combinations using pooled and equal-account metrics. All five conversion summaries reconcile to 1,280 accounts, 5,000 leads and 1,049 conversions.
+- Documented observed differences, small-group limitations and evidence in [contact coverage analysis](docs/contact-coverage-analysis.md).
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
@@ -57,7 +60,7 @@ See [relationship validation](docs/relationship-validation.md) and [cross-field 
 Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
 - Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
-- Commercial comparison of account contact coverage, buyer-role, seniority and function combinations; the supporting account view is complete.
+- Function-combination conversion comparisons are deferred; contact coverage, buyer-role and seniority comparisons are complete. Further exploratory analysis is not required before Power BI.
 - Any further reporting views and reusable reporting definitions needed for Power BI; engagement analysis queries are complete.
 - Power BI connection, data model, DAX measures and report pages.
 - Integrated commercial recommendations and final portfolio presentation; initial descriptive observations are documented.
@@ -81,7 +84,7 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Buyer/contact analysis, reporting preparation and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Contact-count, buyer-role and seniority analysis is complete. Reporting preparation and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
@@ -92,7 +95,7 @@ The proposed model uses a preserved raw table and two analytical views: one row 
 1. **Lead Conversion Overview:** overall outcomes, source performance and company segments, with volume alongside conversion rate.
 2. **Engagement & Buyer Insights:** engagement levels, pricing/demo interactions and buyer characteristics associated with conversion.
 
-The account view now provides distinct contact counts and buyer-role, seniority and function counts/combinations. Comparing these characteristics with conversion remains planned. Lead conversion rate and the share of accounts with at least one converted lead will be treated as separate measures. Neither these comparisons nor the Power BI measures have been implemented.
+The account view provides distinct contact counts and buyer-role, seniority and function counts/combinations. SQL comparisons of contact counts, buyer roles and seniority with lead conversion are complete; function comparisons are deferred. Lead conversion rate, equal-account mean lead conversion rate and the share of accounts with at least one converted lead are distinct measures. The last of these and the Power BI measures have not been implemented.
 
 No revenue, full-funnel or long-term trend dashboard is planned from the available fields.
 
@@ -127,5 +130,8 @@ Current files:
 
 - `sql/10_analyze_engagement.sql` — engagement distributions, joint patterns and conversion comparisons
 - `docs/engagement-analysis.md` — observed results, metric definitions, evidence coverage and reporting implications
+
+- `sql/11_analyze_contact_coverage.sql` — recorded contact coverage, buyer-role and seniority comparisons
+- `docs/contact-coverage-analysis.md` — aggregate results, interpretation limits and reconciliation evidence
 
 Future directories, created when needed: `powerbi/`, `images/`.
