@@ -10,7 +10,7 @@ The intended audience is Sales Operations / Commercial Analytics. This project f
 
 ## Current status
 
-**Milestone 11: contact coverage, buyer-role and seniority conversion comparisons completed.**
+**Milestone 12: SQL reporting view and model/metric definitions completed; ready to begin Power BI connection.**
 
 Completed:
 - Defined the business question, project boundaries and proposed workflow.
@@ -53,6 +53,9 @@ Completed:
 - Compared conversion by recorded contact counts, buyer-role counts/combinations and seniority counts/combinations using pooled and equal-account metrics. All five conversion summaries reconcile to 1,280 accounts, 5,000 leads and 1,049 conversions.
 - Documented observed differences, small-group limitations and evidence in [contact coverage analysis](docs/contact-coverage-analysis.md).
 
+- Created `analytics.vw_leads_reporting` with selected lead fields, four established reporting groups and their sort keys. Validated 5,000 unique leads, 1,049 conversions, account matching and agreement with earlier grouped results.
+- Documented the planned two-table model, filter behaviour and metric definitions in [reporting model](docs/reporting-model.md). Power BI implementation has not started.
+
 The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
 
 See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
@@ -61,7 +64,7 @@ Not yet completed or confirmed:
 - Source-definition confirmation for opportunity flags and the reference dates of recency fields.
 - Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
 - Function-combination conversion comparisons are deferred; contact coverage, buyer-role and seniority comparisons are complete. Further exploratory analysis is not required before Power BI.
-- Any further reporting views and reusable reporting definitions needed for Power BI; engagement analysis queries are complete.
+- Power BI import/type checks and implementation of the documented relationship, sorting and measure definitions; SQL reporting preparation is complete.
 - Power BI connection, data model, DAX measures and report pages.
 - Integrated commercial recommendations and final portfolio presentation; initial descriptive observations are documented.
 
@@ -84,11 +87,11 @@ See [the initial data assessment](docs/data-assessment.md) for the full column i
 
 Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Contact-count, buyer-role and seniority analysis is complete. Reporting preparation and Power BI stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Contact-count, buyer-role and seniority analysis is complete. SQL reporting preparation is complete. Power BI connection, model implementation and report stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
 
 SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
 
-The proposed model uses a preserved raw table and two analytical views: one row per account and one row per lead. Consistent account attributes justify an Accounts-to-Leads one-to-many relationship. No activity-event table will be invented from aggregate counts.
+The planned Power BI model will import `analytics.vw_accounts` (one row per account) and `analytics.vw_leads_reporting` (one row per lead). The raw table and clean lead view remain upstream SQL sources. Consistent account attributes justify an Accounts-to-Leads one-to-many relationship. No activity-event table will be invented from aggregate counts.
 
 ## Planned report
 
@@ -133,5 +136,8 @@ Current files:
 
 - `sql/11_analyze_contact_coverage.sql` — recorded contact coverage, buyer-role and seniority comparisons
 - `docs/contact-coverage-analysis.md` — aggregate results, interpretation limits and reconciliation evidence
+
+- `sql/12_prepare_reporting_views.sql` — reporting lead view and schema, key, join and group checks
+- `docs/reporting-model.md` — completed SQL preparation, observed checks and planned Power BI model/metrics
 
 Future directories, created when needed: `powerbi/`, `images/`.
