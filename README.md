@@ -28,17 +28,17 @@ The `.pbix` contains two report pages using an imported two-table SQL reporting 
 
 ### Page 1 — Lead Conversion Overview
 
-![Lead Conversion Overview dashboard](powerbi/screenshots/Lead_Conversion_Overview.png)
+![Lead Conversion Overview dashboard](powerbi/Lead_Conversion_Overview.png)
 
-[Open Page 1 screenshot](powerbi/screenshots/Lead_Conversion_Overview.png)
+[Open Page 1 screenshot](powerbi/Lead_Conversion_Overview.png)
 
 Shows overall conversion KPIs and comparisons by **lead source, industry and employee band**, including a direct comparison of pooled lead-level conversion and equal-account mean lead conversion.
 
 ### Page 2 — Engagement & Buyer Insights
 
-![Engagement and Buyer Insights dashboard](powerbi/screenshots/Engagement_Buyer_Insights.png)
+![Engagement and Buyer Insights dashboard](powerbi/Engagement_Buyer_Insights.png)
 
-[Open Page 2 screenshot](powerbi/screenshots/Engagement_Buyer_Insights.png)
+[Open Page 2 screenshot](powerbi/Engagement_Buyer_Insights.png)
 
 Explores **touch-frequency bands, pricing/demo page engagement patterns, buyer role and buyer seniority**. Missing touch counts are reported separately (`Unknown`: **413 leads, 8.26%**), rather than treated as zero engagement.
 
