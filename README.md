@@ -1,143 +1,140 @@
 # B2B Lead Conversion & Commercial Insights
 
-A learning-led SQL Server and Power BI portfolio project exploring how lead sources, company characteristics, buyer roles and engagement signals relate to 90-day B2B lead conversion.
+**SQL Server + Power BI | Sales Operations & Commercial Analytics portfolio project**
+
+An end-to-end, learning-led analysis of synthetic B2B sales pipeline data, examining how lead sources, company characteristics, engagement patterns and buyer context relate to **conversion within 90 days**. The goal is to translate validated descriptive analysis into practical, appropriately qualified commercial insights—not to reproduce the predictive modelling in the underlying MSc dissertation.
 
 ## Business question
 
-What signals help a commercial team understand lead quality, conversion performance and prioritisation opportunities?
+**Which observable signals can help a commercial team understand lead quality, compare conversion performance and inform lead-prioritisation discussions?**
 
-The intended audience is Sales Operations / Commercial Analytics. This project focuses on descriptive analysis and decision support, not rebuilding predictive models from the underlying dissertation.
+**Scope:** descriptive comparisons and interactive reporting. Observed associations are not causal effects or validated lead-scoring rules.
 
-## Current status
+## At a glance
 
-**Milestone 12: SQL reporting view and model/metric definitions completed; ready to begin Power BI connection.**
+| Metric | Result |
+|---|---:|
+| Distinct leads | **5,000** |
+| Distinct accounts | **1,280** |
+| Distinct contacts | **2,889** |
+| Converted within 90 days | **1,049** |
+| Overall lead conversion rate | **20.98%** |
 
-Completed:
-- Defined the business question, project boundaries and proposed workflow.
-- Inspected the supplied CSV: 5,000 lead records and 32 columns.
-- Identified keys, missingness, consistency checks and data-quality concerns.
-- Proposed a small account-to-lead model; it has not been implemented.
-- Connected to the local SQL Server instance using Windows Authentication.
-- Created `B2BLeadAnalytics` and the `raw` schema.
-- Imported the CSV into `raw.lead_scoring` using the SSMS Import Flat File wizard.
-- Executed a SQL row-count check: 5,000 rows, matching the CSV baseline.
-- Verified all 32 column types and NULL settings, plus the primary key on `lead_id`.
-- Confirmed 5,000 non-NULL, distinct lead IDs and the conversion outcome counts.
-- Compared NULL counts across all 32 columns with the CSV baseline: all matched.
-- Confirmed negative-value counts in recency and two ACV fields; raw values remain unchanged.
-- Verified 5,000 distinct leads, 2,889 contacts and 1,280 accounts in SQL.
-- Confirmed each contact maps to one account and has consistent buyer role, function and seniority.
-- Confirmed company attributes are consistent across leads within each account.
-- Found no touch-count arithmetic mismatches among records with all three required values.
-- Split 1,400 missing opportunity ACV values into 745 leads without a created opportunity and 655 with one.
-- Reviewed opportunity-status combinations: no leads are marked open without also being marked created.
-- Flagged 134 leads where non-negative last-touch recency exceeds first-touch recency; interpretation requires a shared reference date.
+**Data:** synthetic [LeadForge Intermediate v1 dataset on Kaggle](https://www.kaggle.com/datasets/derelictpanda/leadforge-lead-scoring-intermediate-v1/data). Leads were created between **1–30 January 2024**. These results do not describe a real company's performance.
 
-- Created `clean.vw_lead_scoring` with all 32 raw columns and five derived fields.
-- Validated 5,000 rows and unique leads, negative-to-NULL cleaning, recency flags and ACV status counts.
-- Confirmed that no source rows or original column values are missing or changed in the view.
+## Power BI dashboards
 
-- Created `analytics.vw_accounts`: one row per company, combining company attributes, distinct contact counts and buyer-role, seniority and function counts/combinations.
-- Validated 1,280 unique accounts, 5,000 total leads and 2,889 total contacts, with no missing/extra accounts, count mismatches, profile mismatches or category-list discrepancies.
+The `.pbix` contains two report pages using an imported two-table SQL reporting model. The images below are static previews; open the Power BI file to explore the interactive visuals.
 
-- Completed six lead conversion summaries: source, industry, employee band, revenue band, region and process maturity. Each reconciles to 5,000 leads and 1,049 conversions.
-- Compared pooled lead conversion rates with equally weighted company mean lead conversion rates across three company characteristics. Employee-size and revenue rankings change under equal company weighting; maturity ordering remains unchanged.
-- Recorded observed results, metric definitions and limitations in [initial conversion analysis](docs/lead-conversion-analysis.md).
+### Page 1 — Lead Conversion Overview
 
-- Compared company sizes within lead sources and industries using pooled and equal-account conversion metrics. The overall size ranking does not hold consistently across these subgroups.
-- Checked source composition at lead and account level, including within-company concentration and zero-inclusive equal-account source shares. See [segment-mix analysis](docs/segment-mix-analysis.md) for observed results and limitations.
+![Lead Conversion Overview dashboard](powerbi/screenshots/Lead_Conversion_Overview.png)
 
-- Completed engagement summaries for touch counts/directions, recency, activities, sessions, pricing/demo page patterns and total session duration. Compared pooled lead conversion with equal-account mean lead conversion rates.
-- Documented observed results, reporting bands, source definitions and evidence limits in [engagement analysis](docs/engagement-analysis.md). No optimal engagement threshold or causal effect is claimed.
+[Open Page 1 screenshot](powerbi/screenshots/Lead_Conversion_Overview.png)
 
-- Compared conversion by recorded contact counts, buyer-role counts/combinations and seniority counts/combinations using pooled and equal-account metrics. All five conversion summaries reconcile to 1,280 accounts, 5,000 leads and 1,049 conversions.
-- Documented observed differences, small-group limitations and evidence in [contact coverage analysis](docs/contact-coverage-analysis.md).
+Shows overall conversion KPIs and comparisons by **lead source, industry and employee band**, including a direct comparison of pooled lead-level conversion and equal-account mean lead conversion.
 
-- Created `analytics.vw_leads_reporting` with selected lead fields, four established reporting groups and their sort keys. Validated 5,000 unique leads, 1,049 conversions, account matching and agreement with earlier grouped results.
-- Documented the planned two-table model, filter behaviour and metric definitions in [reporting model](docs/reporting-model.md). Power BI implementation has not started.
+### Page 2 — Engagement & Buyer Insights
 
-The initial inspection was performed with Python/pandas with AI assistance during project planning. The SQL checks above were subsequently executed in SSMS, with results reviewed against that baseline. See [SQL validation results](docs/sql-validation.md) for evidence, scope and remaining checks.
+![Engagement and Buyer Insights dashboard](powerbi/screenshots/Engagement_Buyer_Insights.png)
 
-See [relationship validation](docs/relationship-validation.md) and [cross-field validation](docs/cross-field-validation.md) for the additional checks, observed results and interpretation limits.
+[Open Page 2 screenshot](powerbi/screenshots/Engagement_Buyer_Insights.png)
 
-Not yet completed or confirmed:
-- Source-definition confirmation for opportunity flags and the reference dates of recency fields.
-- Source-based resolution of the recency conflicts; provisional analytical treatment is documented.
-- Function-combination conversion comparisons are deferred; contact coverage, buyer-role and seniority comparisons are complete. Further exploratory analysis is not required before Power BI.
-- Power BI import/type checks and implementation of the documented relationship, sorting and measure definitions; SQL reporting preparation is complete.
-- Power BI connection, data model, DAX measures and report pages.
-- Integrated commercial recommendations and final portfolio presentation; initial descriptive observations are documented.
+Explores **touch-frequency bands, pricing/demo page engagement patterns, buyer role and buyer seniority**. Missing touch counts are reported separately (`Unknown`: **413 leads, 8.26%**), rather than treated as zero engagement.
 
-## Data and limitations
+**Power BI project:** [`powerbi/B2B_Lead_Conversion_Analytics.pbix`](powerbi/B2B_Lead_Conversion_Analytics.pbix)
 
-The supplied `lead_scoring.csv` contains synthetic B2B lead data used in an MSc dissertation. Results do not represent a real company's customers or financial performance.
+## Key findings
 
-- Grain: one row per lead; 5,000 distinct lead IDs, 1,280 accounts and 2,889 contacts.
-- Outcome: `converted_within_90_days`; 1,049 positive outcomes (20.98%).
-- Lead creation dates cover 1–30 January 2024 only.
-- Existing NULLs are preserved; three selected negative-valued fields are converted to NULL in derived columns. Recency conflicts are flagged, not corrected or deleted.
-- Observation cutoffs and potential post-outcome fields require clarification before making early-prioritisation claims.
-- Multiple leads can belong to one account. Segment comparisons are associations, not causal effects.
+### 1. Changing the weighting changes the company-size ranking
 
-Raw data is not included in this milestone. The public dataset is [LeadForge Intermediate v1 on Kaggle](https://www.kaggle.com/datasets/derelictpanda/leadforge-lead-scoring-intermediate-v1/data). Current upstream field definitions are linked in the engagement notes; matching the local downloaded bundle to an exact release and confirming redistribution terms remain outstanding before adding any dataset. The repository does not yet provide a fully automated end-to-end reproduction.
+Pooling all leads gives larger accounts more influence when they contribute more leads. In contrast, averaging each account's lead conversion rate gives **one equal weight to each account**, including accounts with zero conversions.
 
-See [the initial data assessment](docs/data-assessment.md) for the full column inventory and baseline checks.
+| Employee band | Pooled lead conversion | Equal-account mean lead conversion |
+|---|---:|---:|
+| 200–499 | 21.99% | 21.69% |
+| 500–999 | 20.61% | 20.90% |
+| 1,000–1,999 | 19.18% | 20.02% |
+| 2,000+ | **22.13%** | **19.89%** |
 
-## Workflow and implementation status
+The **2,000+ employee band ranks highest** under pooled lead-level conversion but **lowest** when accounts are equally weighted. Neither metric is universally preferable: the denominator and business question determine the appropriate comparison. Company-size rankings also differ across some lead-source and industry subgroups; see [segment-mix analysis](docs/segment-mix-analysis.md).
 
-Raw CSV → SQL Server → SQL analysis/views → Power BI Import → Power Query → data model → DAX → interactive report.
+### 2. Engagement patterns vary with observed conversion
 
-The CSV-to-SQL Server import, first-pass SQL validation, account/contact consistency checks and four selected cross-field checks are complete. The clean lead view and account view are also complete; initial segment conversion queries and company-weight comparisons are complete. Company-size comparisons within sources and industries, and source-mix checks, are also complete. Engagement analysis is complete. Contact-count, buyer-role and seniority analysis is complete. SQL reporting preparation is complete. Power BI connection, model implementation and report stages remain planned. See [account view and validation](docs/account-view.md) for definitions and verified results. See [cleaning rules and validation](docs/cleaning-rules.md) for implemented treatment and verified results. See [database setup and import notes](docs/database-import.md) for the completed steps and verification limits.
+Recorded touch frequency and pricing/demo page behaviour provide useful **descriptive segmentation signals**. Among the reported page-pattern groups, leads with views of **both pricing and demo pages** have a **26.93%** conversion rate, compared with **19.16%** for those with neither page recorded. This does **not** show that viewing a page caused conversion, nor establish an optimal activity threshold.
 
-SQL will own reusable cleaning and analytical definitions. Power Query will handle report-specific preparation without duplicating SQL transformations. DAX measures will calculate metrics in the current filter context.
+See [engagement analysis](docs/engagement-analysis.md) for definitions, missing/invalid data categories, source-field caveats and additional breakdowns.
 
-The planned Power BI model will import `analytics.vw_accounts` (one row per account) and `analytics.vw_leads_reporting` (one row per lead). The raw table and clean lead view remain upstream SQL sources. Consistent account attributes justify an Accounts-to-Leads one-to-many relationship. No activity-event table will be invented from aggregate counts.
+### 3. Buyer context adds interpretation, not a stand-alone rule
 
-## Planned report
+Buyer-role and seniority groups show differences in observed conversion, but the descriptive comparisons alone do not justify prioritising a lead solely by role or seniority. Contact coverage and organisational context require attention to subgroup sizes, account composition and observation timing. See [contact coverage analysis](docs/contact-coverage-analysis.md).
 
-1. **Lead Conversion Overview:** overall outcomes, source performance and company segments, with volume alongside conversion rate.
-2. **Engagement & Buyer Insights:** engagement levels, pricing/demo interactions and buyer characteristics associated with conversion.
+## Commercial implications
 
-The account view provides distinct contact counts and buyer-role, seniority and function counts/combinations. SQL comparisons of contact counts, buyer roles and seniority with lead conversion are complete; function comparisons are deferred. Lead conversion rate, equal-account mean lead conversion rate and the share of accounts with at least one converted lead are distinct measures. The last of these and the Power BI measures have not been implemented.
+- **Combine conversion rates with lead volumes.** A high-performing segment may contribute relatively few conversions; use the dashboard tooltips to inspect denominators and converted lead counts.
+- **Specify the unit of comparison.** Use pooled lead conversion for lead-level performance; use equal-account means when every account should contribute equally.
+- **Treat engagement as a signal to investigate, not proof of causality.** Pricing/demo activity and touch frequency may reflect underlying buying intent or later-stage engagement.
+- **Use buyer information as context.** Buyer-role and seniority breakdowns support commercial conversations but are not validated standalone scoring rules.
+- **Separate missing from zero.** Missing touch counts (`Unknown`) are kept distinct from an observed count of zero.
 
-No revenue, full-funnel or long-term trend dashboard is planned from the available fields.
+## Workflow and technical implementation
 
-## Incremental delivery
+`Raw CSV → SQL Server (raw) → validated clean and analytics views → Power BI Import / Power Query → Accounts-to-Leads data model → DAX measures → two-page dashboard`
 
-Each coherent milestone will update the relevant files and this status section, then be committed at the time it is completed. No backdated or fabricated commits. Later milestones will add SQL, Power BI, screenshots and findings only when the corresponding work exists and has been checked.
+| Layer | Implementation |
+|---|---|
+| Raw ingestion | Imported `lead_scoring.csv` into `raw.lead_scoring` in SQL Server using SSMS; checked row counts, keys, types and NULL patterns. |
+| Cleaning and validation | Created `clean.vw_lead_scoring`; preserved raw fields, converted selected negative values to NULL in derived fields, and flagged unresolved recency conflicts without silently modifying records. |
+| Reporting views | Created `analytics.vw_accounts` (one row per account) and `analytics.vw_leads_reporting` (one row per lead), with validated keys, categories and totals. |
+| Power BI model | **Import mode** with active **Accounts (1) → Leads (*)** relationship on `account_id`, using single-direction filtering. |
+| DAX measures | Distinct total leads, distinct total accounts, converted leads, lead conversion rate and equal-account mean lead conversion rate. For the equal-account mean, zero-conversion accounts are retained rather than excluded as BLANK. |
+| Presentation | Two dashboard pages, categorical sorting and explanatory notes; report-specific sort fields are handled without changing raw SQL data. |
 
-Current files:
-- `README.md` and `.gitignore`
-- `docs/data-assessment.md` — initial CSV inspection
-- `docs/database-import.md` — database setup, manual import and row-count evidence
-- `sql/01_create_database.sql` — database and schema setup
-- `sql/02_verify_import.sql` — imported row-count check
-- `sql/03_validate_schema.sql` — schema, keys, outcomes, NULLs and selected negative values
-- `docs/sql-validation.md` — observed SQL results and validation limits
-- `sql/04_validate_relationships.sql` — entity counts and contact/account consistency checks
-- `docs/relationship-validation.md` — relationship results and planned analytical extension
-- `sql/05_validate_cross_fields.sql` — touch arithmetic, opportunity fields and recency-order checks
-- `docs/cross-field-validation.md` — observed cross-field results and unresolved issues
+A **lead**, not an account, is the outcome unit. Multiple leads may belong to the same account; account-level attributes are stored once in the Accounts view. No event-level activity table, revenue dashboard, full-funnel model or long-term trend is invented from the aggregated source fields.
 
-- `sql/06_create_clean_view.sql` — retained previews, clean view definition and five validation queries
-- `docs/cleaning-rules.md` — implemented cleaning rules, metric scope and verified results
+See the [reporting model and metric definitions](docs/reporting-model.md) for the original SQL-to-Power BI design and calculation scope. Earlier planning language in that historical document reflects the project's stage when it was written.
 
-- `sql/07_create_account_view.sql` — retained previews, account view definition and five validation queries
-- `docs/account-view.md` — account grain, field definitions, verified results and interpretation limits
+## SQL milestones and evidence
 
-- `sql/08_analyze_lead_conversion.sql` — six segment summaries, account detail and three-dimension weighting comparison
-- `docs/lead-conversion-analysis.md` — observed results, metric definitions and interpretation limits
+SQL milestones were completed and documented before Power BI was built. Their analysis notes remain available rather than being overwritten by the final presentation.
 
-- `sql/09_analyze_segment_mix.sql` — source/size and industry/size conversion comparisons and source composition queries
-- `docs/segment-mix-analysis.md` — observed subgroup results, concentration checks and metric limits
+| Milestone | Evidence | Focus |
+|---|---|---|
+| 01–05 | [Data assessment](docs/data-assessment.md), [database import](docs/database-import.md), [SQL validation](docs/sql-validation.md), [relationship validation](docs/relationship-validation.md), [cross-field validation](docs/cross-field-validation.md) | Source assessment, ingestion, schema, keys, NULLs, entity consistency and cross-field issues. |
+| 06 | [Cleaning rules](docs/cleaning-rules.md) | `clean.vw_lead_scoring` and validated, non-destructive derivations. |
+| 07 | [Account view](docs/account-view.md) | One-row-per-account view and validation against 1,280 accounts. |
+| 08 | [Lead conversion analysis](docs/lead-conversion-analysis.md) | Six segment summaries and pooled versus equal-account weighting. |
+| 09 | [Segment-mix analysis](docs/segment-mix-analysis.md) | Size comparisons within source/industry and source composition. |
+| 10 | [Engagement analysis](docs/engagement-analysis.md) | Touches, recency, activities, sessions and pricing/demo patterns. |
+| 11 | [Contact coverage analysis](docs/contact-coverage-analysis.md) | Contact counts, buyer-role and seniority summaries. |
+| 12 | [Reporting model](docs/reporting-model.md) | `analytics.vw_leads_reporting`, reconciliation checks and Power BI-ready model definitions. |
 
-- `sql/10_analyze_engagement.sql` — engagement distributions, joint patterns and conversion comparisons
-- `docs/engagement-analysis.md` — observed results, metric definitions, evidence coverage and reporting implications
+The version-controlled SQL scripts are stored in [`sql/`](sql/), from `01_create_database.sql` through `12_prepare_reporting_views.sql`. Validation and analysis details are in [`docs/`](docs/).
 
-- `sql/11_analyze_contact_coverage.sql` — recorded contact coverage, buyer-role and seniority comparisons
-- `docs/contact-coverage-analysis.md` — aggregate results, interpretation limits and reconciliation evidence
+The initial CSV inspection used Python/pandas with AI assistance for project planning; the SQL validation queries were subsequently run in SSMS and reconciled against that baseline.
 
-- `sql/12_prepare_reporting_views.sql` — reporting lead view and schema, key, join and group checks
-- `docs/reporting-model.md` — completed SQL preparation, observed checks and planned Power BI model/metrics
+## Limitations and reproducibility
 
-Future directories, created when needed: `powerbi/`, `images/`.
+- **Synthetic data:** insights are illustrative; they are not estimates of a real organisation's conversion performance.
+- **Short time coverage:** lead-creation dates span only January 2024. Long-term trends cannot be inferred.
+- **Definition and timing uncertainty:** source definitions for opportunity flags and recency reference dates remain unconfirmed. Some fields may occur after the point at which a real team would make an early-prioritisation decision.
+- **Data quality:** existing NULLs are preserved; selected negative values receive derived NULL treatment. Recency-order conflicts are flagged, not assumed resolved.
+- **Multiple leads per account:** pooled lead-level rates and equal-account averages answer different questions. Comparisons are descriptive, not causal.
+- **Reproduction:** SQL scripts and reporting artifacts are provided, but the repository is **not yet a fully automated end-to-end pipeline**. The raw dataset is not redistributed pending release/terms verification and can be accessed through the Kaggle source linked above. The local SQL Server connection in the `.pbix` may need to be repointed to a reader's own environment.
+
+## Repository structure
+
+```text
+.
+├── README.md
+├── .gitignore
+├── sql/                       # 01–12: SQL setup, validation, analysis, reporting views
+├── docs/                      # methods, observed SQL results and limitations
+└── powerbi/
+    ├── B2B_Lead_Conversion_Analytics.pbix
+    └── screenshots/
+        ├── Lead_Conversion_Overview.png
+        └── Engagement_Buyer_Insights.png
+```
+
+**Status:** SQL analysis, Power BI model, two report pages and static dashboard screenshots are complete. Remaining work is limited to portfolio documentation upkeep and any future reproducibility enhancements; no additional analysis page is required for the current scope.
